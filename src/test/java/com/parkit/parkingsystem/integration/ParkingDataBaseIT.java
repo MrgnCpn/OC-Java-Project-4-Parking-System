@@ -48,14 +48,14 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testParkingACar(){
+    public void testParkingACar() throws Exception {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
     }
 
     @Test
-    public void testParkingLotExit(){
+    public void testParkingLotExit() throws Exception {
         testParkingACar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();

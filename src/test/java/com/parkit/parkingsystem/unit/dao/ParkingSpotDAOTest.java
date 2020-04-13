@@ -24,7 +24,7 @@ class ParkingSpotDAOTest {
     @Test
     void getNextAvailableSlotTest() {
         assertThat(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).isInstanceOf(Integer.class);
-        assertThat(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).isEqualTo(2);
+        assertThat(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).isEqualTo(1);
     }
 
     @Test
