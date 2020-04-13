@@ -14,10 +14,13 @@ public class DataBasePrepareService {
             connection = dataBaseTestConfig.getConnection();
 
             //set parking entries to available
-            connection.prepareStatement("update parking set available = true").execute();
+            connection.prepareStatement("UPDATE parking SET available = 1 WHERE parking_number > 1").execute();
 
             //clear ticket entries;
-            connection.prepareStatement("truncate table ticket").execute();
+            connection.prepareStatement("TRUNCATE TABLE ticket").execute();
+
+            //set TEST ticket
+            connection.prepareStatement("INSERT INTO ticket VALUES (1, 1, \"TST_TCKT\", 0.50, CAST(\"2020-01-01 10:00:00\" AS DATETIME), CAST(\"2020-01-01 10:10:00\" AS DATETIME))").execute();
 
         }catch(Exception e){
             e.printStackTrace();
