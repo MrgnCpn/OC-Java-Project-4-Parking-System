@@ -4,7 +4,7 @@ import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
-    public void calculateFare(Ticket ticket){
+    public void calculateFare(Ticket ticket, Boolean firstHalfHourFree){
         long inHour = ticket.getInTime().getTime();
         long outHour = ticket.getOutTime().getTime();
 
