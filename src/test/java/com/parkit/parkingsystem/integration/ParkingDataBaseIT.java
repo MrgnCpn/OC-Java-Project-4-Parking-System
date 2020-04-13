@@ -15,8 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Date;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -87,6 +85,10 @@ public class ParkingDataBaseIT {
 
         double duration = (double) (outHour - inHour) / (1000 * 3600);
         duration = (Math.round(duration * 100)) / (double) 100;
+
+        // Free First Half Hour
+        duration -= 0.5;
+        if (duration < 0) duration = 0;
 
         assertThat(ticket.getPrice()).isEqualTo(duration * Fare.CAR_RATE_PER_HOUR);
     }
