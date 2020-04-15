@@ -51,6 +51,24 @@ class TicketTest {
         assertThat(ticket.getOutTime()).isNull();
     }
 
+    @Test
+    void applyDiscountToPrice() {
+        Ticket ticket = new Ticket();
+        ticket.setPrice(10);
+        assertThat(ticket.getPrice()).isEqualTo(10);
+
+        ticket.applyDiscount(5);
+        assertThat(ticket.getPrice()).isEqualTo(9.5);
+
+        ticket.setPrice(10);
+        ticket.applyDiscount(50);
+        assertThat(ticket.getPrice()).isEqualTo(5);
+
+        ticket.setPrice(10);
+        ticket.applyDiscount(90);
+        assertThat(ticket.getPrice()).isEqualTo(1);
+    }
+
     @AfterEach
     public void undefTest(){
         ticket = null;
