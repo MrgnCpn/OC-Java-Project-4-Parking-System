@@ -58,7 +58,11 @@ public class Ticket {
         this.outTime = outTime;
     }
 
-    public void applyDiscount(double discount) {
-        this.price -= this.price * (discount / 100);
+    public void applyDiscount(double discount) throws Exception {
+        if ((discount >= 0) && (discount <= 100)) {
+            this.price -= this.price * (discount / 100);
+        } else {
+            throw new Exception("The discount value is incorrect");
+        }
     }
 }

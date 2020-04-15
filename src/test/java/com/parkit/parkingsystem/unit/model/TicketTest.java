@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 class TicketTest {
     private Ticket ticket;
@@ -52,8 +52,7 @@ class TicketTest {
     }
 
     @Test
-    void applyDiscountToPrice() {
-        Ticket ticket = new Ticket();
+    void applyDiscountToPrice() throws Exception {
         ticket.setPrice(10);
         assertThat(ticket.getPrice()).isEqualTo(10);
 
@@ -67,6 +66,9 @@ class TicketTest {
         ticket.setPrice(10);
         ticket.applyDiscount(90);
         assertThat(ticket.getPrice()).isEqualTo(1);
+
+        assertThatExceptionOfType(Exception.class).isThrownBy(() -> ticket.applyDiscount(200));
+        assertThatExceptionOfType(Exception.class).isThrownBy(() -> ticket.applyDiscount(-20));
     }
 
     @AfterEach
