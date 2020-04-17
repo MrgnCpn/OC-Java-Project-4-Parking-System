@@ -11,6 +11,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Access of parking table
+ */
 public class ParkingSpotDAO {
     private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
 

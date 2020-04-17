@@ -5,6 +5,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
+/**
+ * Configuration and action of DataBase
+ */
 public class DataBaseConfig {
 
     private static final Logger logger = LogManager.getLogger("DataBaseConfig");

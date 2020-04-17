@@ -13,6 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 
+/**
+ * Access of ticket table
+ */
 public class TicketDAO {
 
     private static final Logger logger = LogManager.getLogger("TicketDAO");
