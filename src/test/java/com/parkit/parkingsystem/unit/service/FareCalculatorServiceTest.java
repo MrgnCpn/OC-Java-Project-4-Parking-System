@@ -11,6 +11,7 @@ import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Nested;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class FareCalculatorServiceTest {
@@ -220,6 +221,42 @@ public class FareCalculatorServiceTest {
         ticket.setParkingSpot(new ParkingSpot(1, ParkingType.BIKE,false));
         fareCalculatorService.calculateFare(ticket, true);
         assertThat(ticket.getPrice()).isEqualTo((23.5 * Fare.BIKE_RATE_PER_HOUR));
+    }
+
+    @Test
+    public void calculateFareBike_errorDateTime_outTimeBeforeInTime(){
+        Date inTime = new Date();
+        inTime.setTime(Timestamp.valueOf("2020-01-01 10:10:00").getTime());
+        Date outTime = new Date();
+        outTime.setTime(Timestamp.valueOf("2020-01-01 10:00:00").getTime());
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> fareCalculatorService.calculateFare(ticket, false));
+    }
+
+    @Test
+    public void calculateFareBike_errorDateTime_outTimeIsEqualToZero(){
+        Date inTime = new Date();
+        inTime.setTime(Timestamp.valueOf("2020-01-01 10:10:00").getTime());
+
+        ticket.setInTime(inTime);
+
+        assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> fareCalculatorService.calculateFare(ticket, false));
+    }
+
+    @Test
+    public void calculateFareBike_errorParkingTypeIsNull(){
+        Date inTime = new Date();
+        inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000)); // 24 hours parking time should give 24 * parking fare per hour
+        Date outTime = new Date();
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(null);
+
+        assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> fareCalculatorService.calculateFare(ticket, false));
     }
 
 

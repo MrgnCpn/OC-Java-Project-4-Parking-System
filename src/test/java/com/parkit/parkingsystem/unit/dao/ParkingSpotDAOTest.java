@@ -30,14 +30,17 @@ class ParkingSpotDAOTest {
     void getNextAvailableSlotTest() {
         assertThat(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).isInstanceOf(Integer.class);
         assertThat(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).isEqualTo(1);
+        assertThat(parkingSpotDAO.getNextAvailableSlot(null)).isEqualTo(-1);
     }
 
     @Test
     void updateParkingTest() {
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        assertThat(parkingSpotDAO.updateParking(parkingSpot)).isInstanceOf(Boolean.class);
-        parkingSpotDAO.updateParking(parkingSpot);
+        assertThat(parkingSpotDAO.updateParking(parkingSpot)).isEqualTo(true);
         assertThat(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).isEqualTo(2);
+
+        parkingSpot = null;
+        assertThat(parkingSpotDAO.updateParking(parkingSpot)).isEqualTo(false);
     }
 
     @AfterEach

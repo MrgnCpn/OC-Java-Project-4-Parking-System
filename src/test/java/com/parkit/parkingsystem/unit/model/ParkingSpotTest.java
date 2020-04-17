@@ -42,10 +42,19 @@ class ParkingSpotTest {
 
     @Test
     void testEquals() {
-        assertThat(
-                new ParkingSpot(1, ParkingType.BIKE, false)
-                        .equals(new ParkingSpot(1, ParkingType.CAR, false))
-        ).isTrue();
+        parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+        assertThat(parkingSpot.equals(new ParkingSpot(2, ParkingType.CAR, false))).isFalse();
+        assertThat(parkingSpot.equals(new ParkingSpot(2, ParkingType.BIKE, false))).isFalse();
+
+        assertThat(parkingSpot.equals(parkingSpot)).isTrue();
+
+        ParkingSpot emptyParkingSpot = null;
+        assertThat(parkingSpot.equals(emptyParkingSpot)).isFalse();
+    }
+
+    @Test
+    void testHash(){
+
     }
 
     @AfterEach
