@@ -14,7 +14,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
         String host = "localhost";
         String port = "3306";
         String user = "root";
-        String password = "";
+        String password = "password";
         String database = "OC_parkingSystem_p4_test";
 
         logger.info("Create DB connection");

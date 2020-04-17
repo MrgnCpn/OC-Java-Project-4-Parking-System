@@ -22,13 +22,13 @@ public class DataBaseConfig {
         String host = "localhost";
         String port = "3306";
         String user = "root";
-        String password = "";
+        String password = "password";
         String database = "OC_parkingSystem_p4_prod";
 
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
-                "jdbc:mysql://"+ host +":"+ port +"/"+ database, user, password);
+                "jdbc:mysql://" + host + ":" + port + "/" + database, user, password);
     }
 
     /**
