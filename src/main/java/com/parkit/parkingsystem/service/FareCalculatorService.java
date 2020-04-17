@@ -4,6 +4,13 @@ import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
+
+    /**
+     * Calculate price of ticket by type of vehicle
+     * Free first half hour if firstHalfHourFree = true
+     * @param ticket
+     * @param firstHalfHourFree
+     */
     public void calculateFare(Ticket ticket, Boolean firstHalfHourFree){
         long inHour = ticket.getInTime().getTime();
         long outHour = ticket.getOutTime().getTime();
@@ -30,7 +37,7 @@ public class FareCalculatorService {
                 ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
                 break;
             }
-            default: throw new IllegalArgumentException("Unkown Parking Type");
+            default: throw new IllegalArgumentException("Unknown Parking Type");
         }
     }
 }

@@ -27,11 +27,15 @@ public class ParkingService {
         this.ticketDAO = ticketDAO;
     }
 
+    /**
+     * Genarate update parking slot availability and save new ticket in DB
+     * @throws Exception
+     */
     public void processIncomingVehicle() throws Exception {
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
-                String vehicleRegNumber = getVehiculeRegNumber();
+                String vehicleRegNumber = getVehicleRegNumber();
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
@@ -55,7 +59,12 @@ public class ParkingService {
         }
     }
 
-    private String getVehiculeRegNumber() throws Exception {
+    /**
+     * Get vehiculeRegNumber inputted in terminal by user
+     * @return
+     * @throws Exception
+     */
+    private String getVehicleRegNumber() throws Exception {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
@@ -81,6 +90,10 @@ public class ParkingService {
         return parkingSpot;
     }
 
+    /**
+     * Get vehicle Type inputted in terminal by user
+     * @return Exception if type is incorrect
+     */
     private ParkingType getVehichleType(){
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
@@ -100,9 +113,12 @@ public class ParkingService {
         }
     }
 
+    /**
+     * Exit vehicle by update parking slot availability and ticket (price / out time)
+     */
     public void processExitingVehicle() {
         try{
-            String vehicleRegNumber = getVehiculeRegNumber();
+            String vehicleRegNumber = getVehicleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);

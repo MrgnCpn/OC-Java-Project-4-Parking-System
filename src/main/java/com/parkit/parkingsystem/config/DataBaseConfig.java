@@ -11,8 +11,7 @@ public class DataBaseConfig {
 
     /**
      * Open Connection on OC_parkingSystem_p4_prod DB
-     *
-     * @return
+     * @return Connection
      * @throws ClassNotFoundException
      * @throws SQLException
      */
@@ -31,7 +30,7 @@ public class DataBaseConfig {
 
     /**
      * Close Connection
-     * @param con
+     * @param con Connection
      */
     public void closeConnection(Connection con){
         if(con!=null){
@@ -46,7 +45,7 @@ public class DataBaseConfig {
 
     /**
      * Close Prepared Statement
-     * @param ps
+     * @param ps PreparedStatement
      */
     public void closePreparedStatement(PreparedStatement ps) {
         if(ps!=null){
@@ -59,6 +58,10 @@ public class DataBaseConfig {
         }
     }
 
+    /**
+     * Close ResultSet
+     * @param rs ResultSet
+     */
     public void closeResultSet(ResultSet rs) {
         if(rs!=null){
             try {
