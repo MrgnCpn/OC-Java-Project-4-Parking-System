@@ -9,13 +9,30 @@ public class DataBaseConfig {
 
     private static final Logger logger = LogManager.getLogger("DataBaseConfig");
 
+    /**
+     * Open Connection on OC_parkingSystem_p4_prod DB
+     *
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public Connection getConnection() throws ClassNotFoundException, SQLException {
+        String host = "localhost";
+        String port = "3306";
+        String user = "root";
+        String password = "";
+        String database = "OC_parkingSystem_p4_prod";
+
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/OC_parkingSystem_p4_prod","root","");
+                "jdbc:mysql://"+ host +":"+ port +"/"+ database, user, password);
     }
 
+    /**
+     * Close Connection
+     * @param con
+     */
     public void closeConnection(Connection con){
         if(con!=null){
             try {
@@ -27,6 +44,10 @@ public class DataBaseConfig {
         }
     }
 
+    /**
+     * Close Prepared Statement
+     * @param ps
+     */
     public void closePreparedStatement(PreparedStatement ps) {
         if(ps!=null){
             try {

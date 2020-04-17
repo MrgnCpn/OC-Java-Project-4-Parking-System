@@ -11,10 +11,16 @@ public class DataBaseTestConfig extends DataBaseConfig {
     private static final Logger logger = LogManager.getLogger("DataBaseTestConfig");
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
+        String host = "localhost";
+        String port = "3306";
+        String user = "root";
+        String password = "";
+        String database = "OC_parkingSystem_p4_test";
+
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/OC_parkingSystem_p4_test","root","");
+                "jdbc:mysql://"+ host +":"+ port +"/"+ database, user, password);
     }
 
     public void closeConnection(Connection con){

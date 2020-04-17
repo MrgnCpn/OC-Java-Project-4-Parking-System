@@ -29,7 +29,7 @@ class TicketDAOTest {
     }
 
     @Test
-    void getTicketUnknow() {
+    void getTicketUnknown() {
         assertThat(ticketDAO.getTicket("UNKNOW")).isNull();
     }
 
@@ -43,14 +43,20 @@ class TicketDAOTest {
         assertThat(ticket.getOutTime().getTime()).isEqualTo(Timestamp.valueOf("2020-01-01 10:10:00").getTime());
     }
 
-    @Disabled("Plus de tests")
     @Test
     void saveTicket() {
+        Date inTime = new Date();
+        inTime.setTime(Timestamp.valueOf("2020-01-01 10:00:00").getTime());
+        Date outTime = new Date();
+        outTime.setTime(Timestamp.valueOf("2020-01-01 10:10:00").getTime());
+
         Ticket ticket = new Ticket();
         ticket.setVehicleRegNumber("NEW_TCKT");
         ticket.setPrice(10);
-        ticket.setInTime(new Date());
-        ticket.setOutTime(new Date());
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+
+
         ticket.setParkingSpot(new ParkingSpot(2, ParkingType.CAR, false));
         ticketDAO.saveTicket(ticket);
 
@@ -58,18 +64,26 @@ class TicketDAOTest {
 
         assertThat(ticketDB.getPrice()).isEqualTo(10);
         assertThat(ticketDB.getParkingSpot()).isEqualTo(new ParkingSpot(2, ParkingType.CAR, false));
+        assertThat(ticketDB.getInTime().getTime()).isEqualTo(inTime.getTime());
+        assertThat(ticketDB.getOutTime().getTime()).isEqualTo(outTime.getTime());
     }
 
-    @Disabled("A réecrire")
     @Test
     void updateTicketReturnBoolean() {
+        Date outTime = new Date();
+        outTime.setTime(Timestamp.valueOf("2020-02-02 20:20:00").getTime());
+
         Ticket ticket = ticketDAO.getTicket("TST_TCKT");
         ticket.setPrice(30);
         ticket.setParkingSpot(new ParkingSpot(1, ParkingType.BIKE, false));
+        ticket.setOutTime(outTime);
+
         ticketDAO.updateTicket(ticket);
         assertThat(ticketDAO.updateTicket(ticket)).isInstanceOf(Boolean.class);
         assertThat(ticketDAO.getTicket("TST_TCKT").getPrice()).isEqualTo(30);
         assertThat(ticketDAO.getTicket("TST_TCKT").getParkingSpot()).isEqualTo(new ParkingSpot(1, ParkingType.BIKE, false));
+        assertThat(ticketDAO.getTicket("TST_TCKT").getInTime().getTime()).isEqualTo(Timestamp.valueOf("2020-01-01 10:00:00").getTime());
+        assertThat(ticketDAO.getTicket("TST_TCKT").getOutTime().getTime()).isEqualTo(outTime.getTime());
     }
 
     @Test
