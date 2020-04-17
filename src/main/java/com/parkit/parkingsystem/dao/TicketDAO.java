@@ -71,9 +71,21 @@ public class TicketDAO {
 
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
+        int UserTicketCount = 0;
         try {
             con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET_COUNT);
+            ps.setString(1, ticket.getVehicleRegNumber());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                UserTicketCount = rs.getInt(1);;
+            }
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closePreparedStatement(ps);
+
+            ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
+            // Apply Discount if is a loyal client (>= 3 tickets)
+            if (UserTicketCount >= 3) ticket.applyDiscount(5);
             ps.setDouble(1, ticket.getPrice());
             ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
             ps.setInt(3,ticket.getId());
