@@ -61,7 +61,7 @@ public class ParkingSpotDAO {
      * @param parkingSpot
      * @return success execution by boolean
      */
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("OBL_UNSATISFIED_OBLIGATION")
     public boolean updateParking(ParkingSpot parkingSpot) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -76,8 +76,8 @@ public class ParkingSpotDAO {
             logger.error("Error updating parking info", ex);
             return false;
         } finally {
-            dataBaseConfig.closeConnection(con);
             dataBaseConfig.closePreparedStatement(ps);
+            dataBaseConfig.closeConnection(con);
         }
     }
 }

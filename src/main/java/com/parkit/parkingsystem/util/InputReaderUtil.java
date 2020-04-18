@@ -6,12 +6,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.Scanner;
 
 public class InputReaderUtil {
-
-    /**
-     * Input Scanner
-     */
-    private Scanner scan = new Scanner(System.in);
-
     /**
      * Logger log4j2
      */
@@ -23,7 +17,7 @@ public class InputReaderUtil {
      */
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("DM_DEFAULT_ENCODING")
     public int readSelection() {
-        try {
+        try (Scanner scan = new Scanner(System.in)) {
              return Integer.parseInt(scan.nextLine());
         } catch(Exception e){
             logger.error("Error while reading user input from Shell", e);
@@ -38,7 +32,7 @@ public class InputReaderUtil {
      */
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("DM_DEFAULT_ENCODING")
     public String readVehicleRegistrationNumber() {
-        try {
+        try (Scanner scan = new Scanner(System.in)) {
             String vehicleRegNumber = scan.nextLine();
             if (vehicleRegNumber == null || vehicleRegNumber.trim().length() == 0) {
                 throw new IllegalArgumentException("Invalid input provided");
