@@ -30,7 +30,7 @@ public class InteractiveShell {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
         while(continueApp){
-            loadMenu();
+            System.out.println("Please select an option. Simply enter the number to choose an action\n1 New Vehicle Entering - Allocate Parking Space\n2 Vehicle Exiting - Generate Ticket Price\n3 Shutdown System");
             int option = inputReaderUtil.readSelection();
             switch(option){
                 case 1 :
@@ -47,9 +47,4 @@ public class InteractiveShell {
             }
         }
     }
-
-    private static void loadMenu(){
-        System.out.println("Please select an option. Simply enter the number to choose an action\n1 New Vehicle Entering - Allocate Parking Space\n2 Vehicle Exiting - Generate Ticket Price\n3 Shutdown System");
-    }
-
 }
