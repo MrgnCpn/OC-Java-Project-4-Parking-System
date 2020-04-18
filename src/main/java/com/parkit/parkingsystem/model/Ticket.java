@@ -42,27 +42,31 @@ public class Ticket {
         this.price = price;
     }
 
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("EI_EXPOSE_REP")
     public Date getInTime() {
         return inTime;
     }
 
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("EI_EXPOSE_REP2")
     public void setInTime(Date inTime) {
         this.inTime = inTime;
     }
 
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("EI_EXPOSE_REP")
     public Date getOutTime() {
         return outTime;
     }
 
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("EI_EXPOSE_REP2")
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
     }
 
-    public void applyDiscount(double discount) throws Exception {
+    public void applyDiscount(double discount) {
         if ((discount >= 0) && (discount <= 100)) {
             this.price -= this.price * (discount / 100);
         } else {
-            throw new Exception("The discount value is incorrect");
+            throw new IllegalArgumentException("The discount value is incorrect");
         }
     }
 }

@@ -6,12 +6,17 @@ import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class TicketDAOTest {
     private static TicketDAO ticketDAO;
@@ -25,16 +30,16 @@ class TicketDAOTest {
     @BeforeEach
     public void setUpPerTest(){
         ticketDAO = new TicketDAO();
-        ticketDAO.dataBaseConfig = new DataBaseTestConfig();
+        ticketDAO.setDataBaseConfig(new DataBaseTestConfig());
     }
 
     @Test
-    void getTicketUnknown() {
+    void getTicketUnknown() throws SQLException {
         assertThat(ticketDAO.getTicket("UNKNOW")).isNull();
     }
 
     @Test
-    void getTicketTest() {
+    void getTicketTest() throws SQLException {
         Ticket ticket = ticketDAO.getTicket("TST_TCKT");
 
         assertThat(ticket.getId()).isEqualTo(1);
@@ -44,7 +49,7 @@ class TicketDAOTest {
     }
 
     @Test
-    void saveTicket() {
+    void saveTicketTest() throws SQLException {
         Date inTime = new Date();
         inTime.setTime(Timestamp.valueOf("2020-01-01 10:00:00").getTime());
         Date outTime = new Date();
@@ -55,9 +60,8 @@ class TicketDAOTest {
         ticket.setPrice(10);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
-
-
         ticket.setParkingSpot(new ParkingSpot(2, ParkingType.CAR, false));
+
         ticketDAO.saveTicket(ticket);
 
         Ticket ticketDB = ticketDAO.getTicket("NEW_TCKT");
@@ -69,7 +73,7 @@ class TicketDAOTest {
     }
 
     @Test
-    void updateTicketReturnBoolean() {
+    void updateTicketReturnBoolean() throws SQLException {
         Date outTime = new Date();
         outTime.setTime(Timestamp.valueOf("2020-02-02 20:20:00").getTime());
 
@@ -87,7 +91,7 @@ class TicketDAOTest {
     }
 
     @Test
-    void updateTicketWithFidelityDiscount(){
+    void updateTicketWithFidelityDiscount() throws SQLException {
         Ticket ticket = ticketDAO.getTicket("TST_TCKT");
         for (int i = 0; i < 3; i ++) {
             ticketDAO.saveTicket(ticket);

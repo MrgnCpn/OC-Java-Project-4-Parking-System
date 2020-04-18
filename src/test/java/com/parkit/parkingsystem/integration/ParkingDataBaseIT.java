@@ -32,9 +32,9 @@ public class ParkingDataBaseIT {
     @BeforeAll
     public static void setUp() {
         parkingSpotDAO = new ParkingSpotDAO();
-        parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
+        parkingSpotDAO.setDataBaseConfig(dataBaseTestConfig);
         ticketDAO = new TicketDAO();
-        ticketDAO.dataBaseConfig = dataBaseTestConfig;
+        ticketDAO.setDataBaseConfig(dataBaseTestConfig);
         dataBasePrepareService = new DataBasePrepareService();
     }
 
@@ -68,7 +68,6 @@ public class ParkingDataBaseIT {
     public void testParkingLotExit() throws Exception {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
-        Thread.sleep(500); // User input
         parkingService.processExitingVehicle();
 
         // TODO : Check that the fare generated and out time are populated correctly in the database

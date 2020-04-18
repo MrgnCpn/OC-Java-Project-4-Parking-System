@@ -54,7 +54,8 @@ class ParkingSpotTest {
 
     @Test
     void testHash(){
-
+        parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+        assertThat(parkingSpot.hashCode()).isEqualTo(1);
     }
 
     @AfterEach

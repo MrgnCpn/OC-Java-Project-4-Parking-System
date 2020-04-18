@@ -10,14 +10,16 @@ import org.apache.logging.log4j.Logger;
  * Interface of the App in console
  */
 public class InteractiveShell {
-
+    /**
+     * Logger log4j2
+     */
     private static final Logger logger = LogManager.getLogger("InteractiveShell");
 
     /**
      * Load interface in terminal
      * @throws Exception
      */
-    public static void loadInterface() throws Exception {
+    public static void loadInterface() {
         logger.info("App initialized!!!");
         System.out.println("Welcome to Parking System!");
 
@@ -31,20 +33,20 @@ public class InteractiveShell {
             loadMenu();
             int option = inputReaderUtil.readSelection();
             switch(option){
-                case 1: {
+                case 1 : {
                     parkingService.processIncomingVehicle();
                     break;
                 }
-                case 2: {
+                case 2 : {
                     parkingService.processExitingVehicle();
                     break;
                 }
-                case 3: {
+                case 3 : {
                     System.out.println("Exiting from the system!");
                     continueApp = false;
                     break;
                 }
-                default: System.out.println("Unsupported option. Please enter a number corresponding to the provided menu");
+                default : System.out.println("Unsupported option. Please enter a number corresponding to the provided menu");
             }
         }
     }

@@ -7,7 +7,10 @@ import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import org.junit.jupiter.api.*;
 
+import java.sql.SQLException;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 
 class ParkingSpotDAOTest {
@@ -23,18 +26,18 @@ class ParkingSpotDAOTest {
     @BeforeEach
     public void setUpPerTest(){
         parkingSpotDAO = new ParkingSpotDAO();
-        parkingSpotDAO.dataBaseConfig = new DataBaseTestConfig();
+        parkingSpotDAO.setDataBaseConfig(new DataBaseTestConfig());
     }
 
     @Test
-    void getNextAvailableSlotTest() {
+    void getNextAvailableSlotTest() throws SQLException {
         assertThat(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).isInstanceOf(Integer.class);
         assertThat(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).isEqualTo(1);
         assertThat(parkingSpotDAO.getNextAvailableSlot(null)).isEqualTo(-1);
     }
 
     @Test
-    void updateParkingTest() {
+    void updateParkingTest() throws SQLException {
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         assertThat(parkingSpotDAO.updateParking(parkingSpot)).isEqualTo(true);
         assertThat(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).isEqualTo(2);

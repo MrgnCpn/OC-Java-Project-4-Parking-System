@@ -10,37 +10,50 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Access of parking table
  */
 public class ParkingSpotDAO {
+
+    /**
+     * Logger log4j2
+     */
     private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
 
-    public DataBaseConfig dataBaseConfig = new DataBaseConfig();
+    private static DataBaseConfig dataBaseConfig = new DataBaseConfig();
+
+    public static void setDataBaseConfig(DataBaseConfig dataBaseConfig) {
+        ParkingSpotDAO.dataBaseConfig = dataBaseConfig;
+    }
 
     /**
      * Get the next slot available for one parking type CAR / BIKE
      * @param parkingType
      * @return parking number
      */
-    public int getNextAvailableSlot(ParkingType parkingType){
-        Connection con = null;
-        int result=-1;
-        try {
-            con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.GET_NEXT_PARKING_SPOT);
-            ps.setString(1, parkingType.toString());
-            ResultSet rs = ps.executeQuery();
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
+    public int getNextAvailableSlot(ParkingType parkingType) throws SQLException {
+        int result =- 1;
+        ResultSet rs = null;
+
+        try (Connection con = dataBaseConfig.getConnection();
+             PreparedStatement ps = con.prepareStatement(DBConstants.GET_NEXT_PARKING_SPOT);
+        ){
+            if (parkingType.toString() != null) {
+                ps.setString(1, parkingType.toString());
+            }
+            rs = ps.executeQuery();
             if(rs.next()){
-                result = rs.getInt(1);;
+                result = rs.getInt(1);
             }
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
-        }catch (Exception ex){
-            logger.error("Error fetching next available slot",ex);
-        }finally {
-            dataBaseConfig.closeConnection(con);
+        } catch (Exception ex){
+            logger.error("Error fetching next available slot", ex);
+        } finally {
+            if (rs != null) rs.close();
         }
         return result;
     }
@@ -50,23 +63,20 @@ public class ParkingSpotDAO {
      * @param parkingSpot
      * @return success execution by boolean
      */
-    public boolean updateParking(ParkingSpot parkingSpot){
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
+    public boolean updateParking(ParkingSpot parkingSpot) {
         //update the availability fo that parking slot
-        Connection con = null;
-        try {
-            con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PARKING_SPOT);
+        try (Connection con= dataBaseConfig.getConnection();
+             PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PARKING_SPOT);
+        ) {
             ps.setBoolean(1, parkingSpot.isAvailable());
             ps.setInt(2, parkingSpot.getId());
             int updateRowCount = ps.executeUpdate();
             dataBaseConfig.closePreparedStatement(ps);
             return (updateRowCount == 1);
-        }catch (Exception ex){
-            logger.error("Error updating parking info",ex);
+        } catch (Exception ex){
+            logger.error("Error updating parking info", ex);
             return false;
-        }finally {
-            dataBaseConfig.closeConnection(con);
         }
     }
-
 }
