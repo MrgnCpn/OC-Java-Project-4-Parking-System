@@ -2,6 +2,17 @@ package com.parkit.parkingsystem.model;
 
 import java.util.Date;
 
+/**
+ * Parking spot object
+ * id : Integer
+ * ParkingSpot : ParkingSpot
+ * vehicleRegNumber : String
+ * price : double
+ * inTime : Date
+ * outTime : Date
+ * @author OpenClassrooms
+ * @author MrgnCpn
+ */
 public class Ticket {
     private int id;
     private ParkingSpot parkingSpot;
@@ -62,6 +73,11 @@ public class Ticket {
         this.outTime = outTime;
     }
 
+    /**
+     * Apply discount to the price of the ticket
+     * Discount [0 ; 100]
+     * @param discount
+     */
     public void applyDiscount(double discount) {
         if ((discount >= 0) && (discount <= 100)) {
             this.price -= this.price * (discount / 100);

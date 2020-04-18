@@ -12,6 +12,11 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 import java.util.Date;
 
+/**
+ * Main function to input or exit vehicule
+ * @author OpenClassrooms
+ * @author MrgnCpn
+ */
 public class ParkingService {
 
     /**
@@ -19,10 +24,24 @@ public class ParkingService {
      */
     private static final Logger logger = LogManager.getLogger("ParkingService");
 
+    /**
+     * Ticket price calculating service
+     */
     private static FareCalculatorService fareCalculatorService = new FareCalculatorService();
 
+    /**
+     * Input reader
+     */
     private InputReaderUtil inputReaderUtil;
+
+    /**
+     * Access to Parking table
+     */
     private ParkingSpotDAO parkingSpotDAO;
+
+    /**
+     * Access to Ticket table
+     */
     private TicketDAO ticketDAO;
 
     public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO){
@@ -32,7 +51,7 @@ public class ParkingService {
     }
 
     /**
-     * Genarate update parking slot availability and save new ticket in DB
+     * Update parking slot availability and save new ticket in DB
      */
     public void processIncomingVehicle() {
         try {
@@ -59,7 +78,7 @@ public class ParkingService {
     }
 
     /**
-     * Get vehiculeRegNumber inputted in terminal by user
+     * Get vehicleRegNumber inputted in console by user
      * @return  inputReaderUtil.readVehicleRegistrationNumber();
      */
     private String getVehicleRegNumber() {
@@ -67,6 +86,10 @@ public class ParkingService {
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
 
+    /**
+     * Get the next parking slot available by vehicle type
+     * @return slot number or 0 if neither available
+     */
     public ParkingSpot getNextParkingNumberIfAvailable(){
         int parkingNumber = 0;
         ParkingSpot parkingSpot = null;
@@ -90,7 +113,7 @@ public class ParkingService {
 
     /**
      * Get vehicle Type inputted in terminal by user
-     * @return Exception if type is incorrect
+     * @return ParkingType
      */
     private ParkingType getVehicleType(){
         System.out.println("Please select vehicle type from menu\n1 CAR\n2 BIKE");

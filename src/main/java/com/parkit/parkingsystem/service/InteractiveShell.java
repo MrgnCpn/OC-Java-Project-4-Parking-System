@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Interface of the App in console
+ * @author OpenClassrooms
+ * @author MrgnCpn
  */
 public class InteractiveShell {
     /**
@@ -16,8 +18,7 @@ public class InteractiveShell {
     private static final Logger logger = LogManager.getLogger("InteractiveShell");
 
     /**
-     * Load interface in terminal
-     * @throws Exception
+     * Load interface in console
      */
     public static void loadInterface() {
         logger.info("App initialized!!!");

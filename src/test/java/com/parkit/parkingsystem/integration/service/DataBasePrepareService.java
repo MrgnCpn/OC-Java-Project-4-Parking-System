@@ -6,13 +6,34 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 
+/**
+ * @author OpenClassrooms
+ * @author MrgnCpn
+ */
 public class DataBasePrepareService {
 
+    /**
+     * Logger log4j2
+     */
     private static final Logger logger = LogManager.getLogger("DataBasePrepareService");
+
+    /**
+     * Database configuration
+     */
     DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
 
+    /**
+     * Set up database for test
+     * Clean all tickets
+     * Set all parking slots available
+     * Insert Test ticket
+     */
     public void clearDataBaseEntries(){
-        try (Connection connection = dataBaseTestConfig.getConnection();) {
+        Connection connection = null;
+
+        try {
+            connection = dataBaseTestConfig.getConnection();
+
             //set parking entries to available
             connection.prepareStatement("UPDATE parking SET available = 1").execute();
 
@@ -25,7 +46,7 @@ public class DataBasePrepareService {
         } catch(Exception e){
             e.printStackTrace();
         } finally {
-            logger.info("Close DB connection");
+            dataBaseTestConfig.closeConnection(connection);
         }
     }
 

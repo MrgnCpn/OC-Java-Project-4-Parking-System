@@ -5,6 +5,8 @@ import com.parkit.parkingsystem.model.Ticket;
 
 /**
  * Price calculating service
+ * @author OpenClassrooms
+ * @author MrgnCpn
  */
 public class FareCalculatorService {
 

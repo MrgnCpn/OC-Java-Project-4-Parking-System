@@ -15,7 +15,9 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * Configuration and action of DataBase
+ * Configuration and action of DataBase PROD
+ * @author OpenClassrooms
+ * @author MrgnCpn
  */
 public class DataBaseConfig {
 
@@ -87,7 +89,6 @@ public class DataBaseConfig {
         }
     }
 
-    /*
     /**
      * Close Prepared Statement
      * @param ps Open statement

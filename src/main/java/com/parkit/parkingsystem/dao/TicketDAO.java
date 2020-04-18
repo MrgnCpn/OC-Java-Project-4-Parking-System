@@ -15,6 +15,8 @@ import java.sql.Timestamp;
 
 /**
  * Access of ticket table
+ * @author OpenClassrooms
+ * @author MrgnCpn
  */
 public class TicketDAO {
 
@@ -23,8 +25,15 @@ public class TicketDAO {
      */
     private static final Logger logger = LogManager.getLogger("TicketDAO");
 
+    /**
+     * Database configuration
+     */
     private static DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+    /**
+     * Setting database configuration PROD / TEST
+     * @param dataBaseConfig
+     */
     public static void setDataBaseConfig(DataBaseConfig dataBaseConfig) {
         TicketDAO.dataBaseConfig = dataBaseConfig;
     }

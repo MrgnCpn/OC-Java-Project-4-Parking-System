@@ -5,6 +5,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Scanner;
 
+/**
+ * Input Reader
+ * @author OpenClassrooms
+ * @author MrgnCpn
+ */
 public class InputReaderUtil {
     /**
      * Logger log4j2
@@ -12,8 +17,8 @@ public class InputReaderUtil {
     private static final Logger logger = LogManager.getLogger("InputReaderUtil");
 
     /**
-     * Read input in terminal
-     * @return
+     * Read input in console for actions
+     * @return action number or -1 if error
      */
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("DM_DEFAULT_ENCODING")
     public int readSelection() {
@@ -27,8 +32,8 @@ public class InputReaderUtil {
     }
 
     /**
-     * Read VehicleRegNumber in terminal
-     * @return
+     * Read VehicleRegNumber in console
+     * @return Vehicle register number
      */
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("DM_DEFAULT_ENCODING")
     public String readVehicleRegistrationNumber() {

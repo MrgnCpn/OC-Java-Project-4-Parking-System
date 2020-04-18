@@ -15,6 +15,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * Configuration and action of DataBase TEST
+ * @author OpenClassrooms
+ * @author MrgnCpn
+ */
 public class DataBaseTestConfig extends DataBaseConfig {
 
     /**

@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 
 /**
  * Access of parking table
+ * @author OpenClassrooms
+ * @author MrgnCpn
  */
 public class ParkingSpotDAO {
 
@@ -21,8 +23,15 @@ public class ParkingSpotDAO {
      */
     private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
 
+    /**
+     * Database configuration
+     */
     private static DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+    /**
+     * Setting database configuration PROD / TEST
+     * @param dataBaseConfig
+     */
     public static void setDataBaseConfig(DataBaseConfig dataBaseConfig) {
         ParkingSpotDAO.dataBaseConfig = dataBaseConfig;
     }
@@ -46,8 +55,8 @@ public class ParkingSpotDAO {
             if(rs.next()){
                 result = rs.getInt(1);
             }
-        } catch (Exception ex){
-            logger.error("Error fetching next available slot", ex);
+        } catch (Exception e){
+            logger.error("Error fetching next available slot", e);
         } finally {
             dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
@@ -72,8 +81,8 @@ public class ParkingSpotDAO {
             ps.setInt(2, parkingSpot.getId());
             int updateRowCount = ps.executeUpdate();
             return (updateRowCount == 1);
-        } catch (Exception ex){
-            logger.error("Error updating parking info", ex);
+        } catch (Exception e){
+            logger.error("Error updating parking info", e);
             return false;
         } finally {
             dataBaseConfig.closePreparedStatement(ps);
