@@ -10,13 +10,20 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.awaitility.Awaitility.await;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ParkingDataBaseIT {
@@ -39,14 +46,14 @@ public class ParkingDataBaseIT {
     }
 
     @BeforeEach
-    public void setUpPerTest() throws Exception {
+    public void setUpPerTest() {
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         when(inputReaderUtil.readSelection()).thenReturn(1);
         dataBasePrepareService.clearDataBaseEntries();
     }
 
     @Test
-    public void testParkingACar() throws Exception {
+    public void testParkingACar() {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
 
@@ -65,9 +72,10 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testParkingLotExit() throws Exception {
+    public void testParkingLotExit() throws InterruptedException {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
+        await().atMost(500 , MILLISECONDS); // User input
         parkingService.processExitingVehicle();
 
         // TODO : Check that the fare generated and out time are populated correctly in the database

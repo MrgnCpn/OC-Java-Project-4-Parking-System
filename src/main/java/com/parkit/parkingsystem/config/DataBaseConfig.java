@@ -3,11 +3,16 @@ package com.parkit.parkingsystem.config;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * Configuration and action of DataBase
@@ -20,6 +25,27 @@ public class DataBaseConfig {
     private static final Logger logger = LogManager.getLogger("DataBaseConfig");
 
     /**
+     * Database host
+     */
+    private String host;
+    /**
+     * Database port
+     */
+    private String port;
+    /**
+     * Database database name
+     */
+    private String database;
+    /**
+     * Database username
+     */
+    private String user;
+    /**
+     * Database password
+     */
+    private String password;
+
+    /**
      * Open Connection on OC_parkingSystem_p4_prod DB
      * @return Connection
      * @throws ClassNotFoundException
@@ -29,15 +55,28 @@ public class DataBaseConfig {
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
+        try (InputStream inputStream = new FileInputStream("src/main/resources/dbConfig.properties")){
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            host = properties.getProperty("host");
+            port = properties.getProperty("port");
+            database = properties.getProperty("database_prod");
+            user = properties.getProperty("user");
+            password = properties.getProperty("password");
+        } catch (FileNotFoundException e) {
+            logger.error("File not found", e);
+        } catch (IOException e) {
+            logger.error("Error while read file", e);
+        }
         return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/OC_parkingSystem_p4_prod", "root", "password");
+                "jdbc:mysql://" + host + ":" + port + "/" + database, user, password);
     }
 
     /**
      * Close Connection
-     * @param con Connection
+     * @param con Active connection
      */
-    public void closeConnection(Connection con) {
+   public void closeConnection(Connection con) {
         if (con != null) {
             try {
                 con.close();
@@ -48,11 +87,12 @@ public class DataBaseConfig {
         }
     }
 
+    /*
     /**
      * Close Prepared Statement
-     * @param ps PreparedStatement
+     * @param ps Open statement
      */
-    public void closePreparedStatement(PreparedStatement ps) {
+   public void closePreparedStatement(PreparedStatement ps) {
         if (ps != null) {
             try {
                 ps.close();
@@ -63,11 +103,12 @@ public class DataBaseConfig {
         }
     }
 
+
     /**
      * Close ResultSet
-     * @param rs ResultSet
+     * @param rs Open ResultSet
      */
-    public void closeResultSet(ResultSet rs) {
+  public void closeResultSet(ResultSet rs) {
         if (rs != null) {
             try {
                 rs.close();

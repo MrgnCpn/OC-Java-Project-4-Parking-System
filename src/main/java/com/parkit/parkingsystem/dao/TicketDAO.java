@@ -8,7 +8,10 @@ import com.parkit.parkingsystem.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
 
 /**
  * Access of ticket table
@@ -33,9 +36,11 @@ public class TicketDAO {
      */
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
     public boolean saveTicket(Ticket ticket){
-        try (Connection con = dataBaseConfig.getConnection();
-              PreparedStatement ps = con.prepareStatement(DBConstants.SAVE_TICKET)
-        ) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        try {
+            con = dataBaseConfig.getConnection();
+            ps = con.prepareStatement(DBConstants.SAVE_TICKET);
             ps.setInt(1,ticket.getParkingSpot().getId());
             ps.setString(2, ticket.getVehicleRegNumber());
             ps.setDouble(3, ticket.getPrice());
@@ -44,6 +49,9 @@ public class TicketDAO {
             return ps.execute();
         } catch (Exception ex){
             logger.error("Error fetching next available slot", ex);
+        } finally {
+            dataBaseConfig.closePreparedStatement(ps);
+            dataBaseConfig.closeConnection(con);
         }
         return false;
     }
@@ -54,13 +62,15 @@ public class TicketDAO {
      * @return ticket
      */
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
-    public Ticket getTicket(String vehicleRegNumber) throws SQLException {
+    public Ticket getTicket(String vehicleRegNumber) {
         Ticket ticket = null;
         if (vehicleRegNumber != null) {
             ResultSet rs = null;
-            try (Connection con = dataBaseConfig.getConnection();
-                 PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET);
-            ) {
+            Connection con = null;
+            PreparedStatement ps = null;
+            try {
+                con = dataBaseConfig.getConnection();
+                ps = con.prepareStatement(DBConstants.GET_TICKET);
                 ps.setString(1, vehicleRegNumber);
                 rs = ps.executeQuery();
                 if (rs.next()) {
@@ -73,12 +83,12 @@ public class TicketDAO {
                     ticket.setInTime(rs.getTimestamp(4));
                     ticket.setOutTime(rs.getTimestamp(5));
                 }
-                dataBaseConfig.closeResultSet(rs);
-                dataBaseConfig.closePreparedStatement(ps);
             } catch (Exception ex) {
                 logger.error("Error fetching next available slot", ex);
             } finally {
-                if (rs != null) rs.close();
+                dataBaseConfig.closePreparedStatement(ps);
+                dataBaseConfig.closeConnection(con);
+                dataBaseConfig.closeResultSet(rs);
             }
         }
         return ticket;
@@ -90,21 +100,24 @@ public class TicketDAO {
      * @return success execution by boolean
      */
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
-    public boolean updateTicket(Ticket ticket) throws SQLException {
+    public boolean updateTicket(Ticket ticket) {
         ResultSet rs = null;
+        Connection con = null;
+        PreparedStatement psGET = null;
+        PreparedStatement psUPDATE = null;
         int userTicketCount = 0;
-        try (Connection con = dataBaseConfig.getConnection();
-             PreparedStatement psGET = con.prepareStatement(DBConstants.GET_TICKET_COUNT);
-             PreparedStatement psUPDATE = con.prepareStatement(DBConstants.UPDATE_TICKET)
-        ){
+        try {
+            con = dataBaseConfig.getConnection();
+            psGET = con.prepareStatement(DBConstants.GET_TICKET_COUNT);
             psGET.setString(1, ticket.getVehicleRegNumber());
             rs = psGET.executeQuery();
             if(rs.next()){
-                userTicketCount = rs.getInt(1);;
+                userTicketCount = rs.getInt(1);
             }
 
             // Apply Discount if is a loyal client (>= 3 tickets)
             if (userTicketCount >= 3) ticket.applyDiscount(5);
+            psUPDATE = con.prepareStatement(DBConstants.UPDATE_TICKET);
             psUPDATE.setDouble(1, ticket.getPrice());
             psUPDATE.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
             psUPDATE.setInt(3,ticket.getId());
@@ -113,7 +126,10 @@ public class TicketDAO {
         } catch (Exception ex){
             logger.error("Error saving ticket info", ex);
         } finally {
-            if (rs != null) rs.close();
+            dataBaseConfig.closePreparedStatement(psGET);
+            dataBaseConfig.closePreparedStatement(psUPDATE);
+            dataBaseConfig.closeConnection(con);
+            dataBaseConfig.closeResultSet(rs);
         }
         return false;
     }

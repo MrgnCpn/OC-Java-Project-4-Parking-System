@@ -4,24 +4,77 @@ import com.parkit.parkingsystem.config.DataBaseConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DataBaseTestConfig extends DataBaseConfig {
 
-    private static final Logger logger = LogManager.getLogger("DataBaseTestConfig");
+    /**
+     * Logger log4j2
+     */
+    private static final Logger logger = LogManager.getLogger("DataBaseConfig");
 
+    /**
+     * Database host
+     */
+    private String host;
+    /**
+     * Database port
+     */
+    private String port;
+    /**
+     * Database database name
+     */
+    private String database;
+    /**
+     * Database username
+     */
+    private String user;
+    /**
+     * Database password
+     */
+    private String password;
+
+    /**
+     * Open Connection on OC_parkingSystem_p4_prod DB
+     * @return Connection
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("DMI_CONSTANT_DB_PASSWORD")
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
+        try (InputStream inputStream = new FileInputStream("src/main/resources/dbConfig.properties")){
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            host = properties.getProperty("host");
+            port = properties.getProperty("port");
+            database = properties.getProperty("database_test");
+            user = properties.getProperty("user");
+            password = properties.getProperty("password");
+        } catch (FileNotFoundException e) {
+            logger.error("File not found", e);
+        } catch (IOException e) {
+            logger.error("Error while read file", e);
+        }
         return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/OC_parkingSystem_p4_test", "root", "password");
+                "jdbc:mysql://" + host + ":" + port + "/" + database, user, password);
     }
 
-    public void closeConnection(Connection con){
+    /**
+     * Close Connection
+     * @param con Active connection
+     */
+    public void closeConnection(Connection con) {
         if (con != null) {
             try {
                 con.close();
@@ -32,6 +85,11 @@ public class DataBaseTestConfig extends DataBaseConfig {
         }
     }
 
+    /*
+    /**
+     * Close Prepared Statement
+     * @param ps Open statement
+     */
     public void closePreparedStatement(PreparedStatement ps) {
         if (ps != null) {
             try {
@@ -43,6 +101,11 @@ public class DataBaseTestConfig extends DataBaseConfig {
         }
     }
 
+
+    /**
+     * Close ResultSet
+     * @param rs Open ResultSet
+     */
     public void closeResultSet(ResultSet rs) {
         if (rs != null) {
             try {
