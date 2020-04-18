@@ -9,6 +9,7 @@ import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -44,6 +45,7 @@ public class ParkingServiceTest {
         ticket.setVehicleRegNumber("ABCDEF");
     }
 
+    @Tag("ParkingServiceTest")
     @Test
     public void processExitingVehicleTest() throws Exception {
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
@@ -59,6 +61,7 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
     }
 
+    @Tag("ParkingServiceTest")
     @Test
     public void getNextParkingNumberIfAvailableTest() throws Exception {
         ParkingSpot parkingSpotTest;
@@ -76,6 +79,7 @@ public class ParkingServiceTest {
         assertThat(parkingSpotTest.getParkingType()).isEqualTo(ParkingType.BIKE);
     }
 
+    @Tag("ParkingServiceTest")
     @Test
     public void processIncomingVehicleTest() throws Exception {
         int availableSpot = 10;
@@ -91,16 +95,19 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
     }
 
+    @Tag("ParkingServiceTest")
     @Test
     public void processExitingVehicleTestNullException() {
         assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> parkingService.processExitingVehicle());
     }
 
+    @Tag("ParkingServiceTest")
     @Test
     public void getNextParkingNumberIfAvailableTest_unknowType() {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> parkingService.getNextParkingNumberIfAvailable());
     }
 
+    @Tag("ParkingServiceTest")
     @Test
     public void getNextParkingNumberIfAvailableTest_nullParkingSpotDAO() {
         when(inputReaderUtil.readSelection()).thenReturn(1);
@@ -108,6 +115,7 @@ public class ParkingServiceTest {
         assertThatExceptionOfType(Exception.class).isThrownBy(() -> parkingService.getNextParkingNumberIfAvailable());
     }
 
+    @Tag("ParkingServiceTest")
     @Test
     public void processIncomingVehicleTest_nullParkingSpotDAO(){
         assertThatExceptionOfType(Exception.class).isThrownBy(() -> parkingService.processIncomingVehicle());

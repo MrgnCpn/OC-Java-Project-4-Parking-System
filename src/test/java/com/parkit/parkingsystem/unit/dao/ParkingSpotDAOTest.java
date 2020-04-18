@@ -29,15 +29,17 @@ class ParkingSpotDAOTest {
         parkingSpotDAO.setDataBaseConfig(new DataBaseTestConfig());
     }
 
+    @Tag("ParkingSpotDAOTest")
     @Test
-    void getNextAvailableSlotTest() throws SQLException {
+    void getNextAvailableSlotTest() {
         assertThat(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).isInstanceOf(Integer.class);
         assertThat(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).isEqualTo(1);
         assertThat(parkingSpotDAO.getNextAvailableSlot(null)).isEqualTo(-1);
     }
 
+    @Tag("ParkingSpotDAOTest")
     @Test
-    void updateParkingTest() throws SQLException {
+    void updateParkingTest() {
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         assertThat(parkingSpotDAO.updateParking(parkingSpot)).isEqualTo(true);
         assertThat(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).isEqualTo(2);

@@ -6,11 +6,7 @@ import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -33,13 +29,15 @@ class TicketDAOTest {
         ticketDAO.setDataBaseConfig(new DataBaseTestConfig());
     }
 
+    @Tag("TicketDAOTest")
     @Test
-    void getTicketUnknown() throws SQLException {
+    void getTicketUnknown() {
         assertThat(ticketDAO.getTicket("UNKNOW")).isNull();
     }
 
+    @Tag("TicketDAOTest")
     @Test
-    void getTicketTest() throws SQLException {
+    void getTicketTest() {
         Ticket ticket = ticketDAO.getTicket("TST_TCKT");
 
         assertThat(ticket.getId()).isEqualTo(1);
@@ -48,8 +46,9 @@ class TicketDAOTest {
         assertThat(ticket.getOutTime().getTime()).isEqualTo(Timestamp.valueOf("2020-01-01 10:10:00").getTime());
     }
 
+    @Tag("TicketDAOTest")
     @Test
-    void saveTicketTest() throws SQLException {
+    void saveTicketTest() {
         Date inTime = new Date();
         inTime.setTime(Timestamp.valueOf("2020-01-01 10:00:00").getTime());
         Date outTime = new Date();
@@ -72,8 +71,9 @@ class TicketDAOTest {
         assertThat(ticketDB.getOutTime().getTime()).isEqualTo(outTime.getTime());
     }
 
+    @Tag("TicketDAOTest")
     @Test
-    void updateTicketReturnBoolean() throws SQLException {
+    void updateTicketReturnBoolean() {
         Date outTime = new Date();
         outTime.setTime(Timestamp.valueOf("2020-02-02 20:20:00").getTime());
 
@@ -90,8 +90,9 @@ class TicketDAOTest {
         assertThat(ticketDAO.getTicket("TST_TCKT").getOutTime().getTime()).isEqualTo(outTime.getTime());
     }
 
+    @Tag("TicketDAOTest")
     @Test
-    void updateTicketWithFidelityDiscount() throws SQLException {
+    void updateTicketWithFidelityDiscount() {
         Ticket ticket = ticketDAO.getTicket("TST_TCKT");
         for (int i = 0; i < 3; i ++) {
             ticketDAO.saveTicket(ticket);

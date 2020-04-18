@@ -3,6 +3,7 @@ package com.parkit.parkingsystem.unit.model;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -28,6 +29,7 @@ class ParkingSpotTest {
 
     }
 
+    @Tag("ParkingSpotTest")
     @Test
     void testGetterAfterSetter(){
         parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
@@ -40,6 +42,7 @@ class ParkingSpotTest {
         assertThat(parkingSpot.isAvailable()).isEqualTo(true);
     }
 
+    @Tag("ParkingSpotTest")
     @Test
     void testEquals() {
         parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
@@ -52,6 +55,7 @@ class ParkingSpotTest {
         assertThat(parkingSpot.equals(emptyParkingSpot)).isFalse();
     }
 
+    @Tag("ParkingSpotTest")
     @Test
     void testHash(){
         parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);

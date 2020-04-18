@@ -5,6 +5,7 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -19,6 +20,7 @@ class TicketTest {
         ticket = new Ticket();
     }
 
+    @Tag("TicketTest")
     @Test
     void testGetterAndSetter(){
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
@@ -41,6 +43,7 @@ class TicketTest {
         assertThat(ticket.getOutTime()).isEqualTo(outTime);
     }
 
+    @Tag("TicketTest")
     @Test
     void testGetterNoSetter(){
         assertThat(ticket.getId()).isEqualTo(0);
@@ -51,6 +54,7 @@ class TicketTest {
         assertThat(ticket.getOutTime()).isNull();
     }
 
+    @Tag("TicketTest")
     @Test
     void applyDiscountToPrice() throws Exception {
         ticket.setPrice(10);
