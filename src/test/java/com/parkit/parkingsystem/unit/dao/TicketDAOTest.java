@@ -101,6 +101,14 @@ class TicketDAOTest {
         assertThat(ticketDAO.getTicket("TST_TCKT").getPrice()).isEqualTo(9.5);
     }
 
+    @Tag("TicketDAOTest")
+    @Test
+    void whenTicketIsNull_thenUpdateOrSaveTicket_returnFalse(){
+        Ticket ticket = new Ticket();
+        assertThat(ticketDAO.saveTicket(ticket)).isEqualTo(false);
+        assertThat(ticketDAO.updateTicket(ticket)).isEqualTo(false);
+    }
+
     @AfterEach
     public void tearDownPerTest(){
         ticketDAO = null;
