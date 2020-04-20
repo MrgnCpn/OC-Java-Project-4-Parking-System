@@ -53,24 +53,22 @@ public class Ticket {
         this.price = price;
     }
 
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("EI_EXPOSE_REP")
     public Date getInTime() {
-        return inTime;
+        if (inTime != null) return new Date(inTime.getTime());
+        else return null;
     }
 
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("EI_EXPOSE_REP2")
     public void setInTime(Date inTime) {
-        this.inTime = inTime;
+        if (inTime != null) this.inTime = new Date(inTime.getTime());
     }
 
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("EI_EXPOSE_REP")
     public Date getOutTime() {
-        return outTime;
+        if (outTime != null) return new Date(outTime.getTime());
+        else return null;
     }
 
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("EI_EXPOSE_REP2")
     public void setOutTime(Date outTime) {
-        this.outTime = outTime;
+        if (outTime != null) this.outTime = new Date(outTime.getTime());
     }
 
     /**

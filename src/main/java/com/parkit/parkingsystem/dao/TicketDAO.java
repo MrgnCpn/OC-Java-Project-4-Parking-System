@@ -43,7 +43,6 @@ public class TicketDAO {
      * @param ticket
      * @return success execution by boolean
      */
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
     public boolean saveTicket(Ticket ticket){
         Connection con = null;
         PreparedStatement ps = null;
@@ -70,7 +69,6 @@ public class TicketDAO {
      * @param vehicleRegNumber
      * @return ticket
      */
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
     public Ticket getTicket(String vehicleRegNumber) {
         Ticket ticket = null;
         if (vehicleRegNumber != null) {
@@ -108,7 +106,6 @@ public class TicketDAO {
      * @param ticket
      * @return success execution by boolean
      */
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
     public boolean updateTicket(Ticket ticket) {
         ResultSet rs = null;
         Connection con = null;

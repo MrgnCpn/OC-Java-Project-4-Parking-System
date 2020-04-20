@@ -53,7 +53,6 @@ public class DataBaseConfig {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("DMI_CONSTANT_DB_PASSWORD")
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");

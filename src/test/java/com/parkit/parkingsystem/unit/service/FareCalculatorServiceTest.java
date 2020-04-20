@@ -182,7 +182,7 @@ public class FareCalculatorServiceTest {
         assertThatExceptionOfType(NullPointerException.class).isThrownBy(() -> fareCalculatorService.calculateFare(ticket, false));
     }
 
-    @Tag("FareCalculatorServiceTest - FreeFirstHalfHour")
+    @Tag("FareCalculatorServiceTest_FreeFirstHalfHour")
     @Test
     public void calculateFareCar_WithFreeFirstHalfHour() {
         Date inTime = new Date();
@@ -197,7 +197,7 @@ public class FareCalculatorServiceTest {
         assertThat(ticket.getPrice()).isEqualTo(0.5 * Fare.CAR_RATE_PER_HOUR);
     }
 
-    @Tag("FareCalculatorServiceTest - FreeFirstHalfHour")
+    @Tag("FareCalculatorServiceTest_FreeFirstHalfHour")
     @Test
     public void calculateFareBike_WithFreeFirstHalfHour() {
         Date inTime = new Date();
@@ -212,7 +212,7 @@ public class FareCalculatorServiceTest {
         assertThat(ticket.getPrice()).isEqualTo(0.5 * Fare.BIKE_RATE_PER_HOUR);
     }
 
-    @Tag("FareCalculatorServiceTest - FreeFirstHalfHour")
+    @Tag("FareCalculatorServiceTest_FreeFirstHalfHour")
     @Test
     public void calculateFareCar_WithLessThanOneHourParkingTime_WithFreeFirstHalfHour() {
         Date inTime = new Date();
@@ -227,7 +227,7 @@ public class FareCalculatorServiceTest {
         assertThat(ticket.getPrice()).isEqualTo(0.25 * Fare.CAR_RATE_PER_HOUR);
     }
 
-    @Tag("FareCalculatorServiceTest - FreeFirstHalfHour")
+    @Tag("FareCalculatorServiceTest_FreeFirstHalfHour")
     @Test
     public void calculateFareBike_WithLessThanOneHourParkingTime_WithFreeFirstHalfHour() {
         Date inTime = new Date();
@@ -242,7 +242,7 @@ public class FareCalculatorServiceTest {
         assertThat(ticket.getPrice()).isEqualTo(0.25 * Fare.BIKE_RATE_PER_HOUR);
     }
 
-    @Tag("FareCalculatorServiceTest - FreeFirstHalfHour")
+    @Tag("FareCalculatorServiceTest_FreeFirstHalfHour")
     @Test
     public void calculateFareCar_WithMoreThanADayParkingTime_WithFreeFirstHalfHour(){
         Date inTime = new Date();
@@ -256,7 +256,7 @@ public class FareCalculatorServiceTest {
         assertThat(ticket.getPrice()).isEqualTo((23.5 * Fare.CAR_RATE_PER_HOUR));
     }
 
-    @Tag("FareCalculatorServiceTest - FreeFirstHalfHour")
+    @Tag("FareCalculatorServiceTest_FreeFirstHalfHour")
     @Test
     public void calculateFareBike_WithMoreThanADayParkingTime_WithFreeFirstHalfHour(){
         Date inTime = new Date();

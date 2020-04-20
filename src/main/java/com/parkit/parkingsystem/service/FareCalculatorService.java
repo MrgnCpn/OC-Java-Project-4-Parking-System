@@ -20,7 +20,7 @@ public class FareCalculatorService {
         long inHour = ticket.getInTime().getTime();
         long outHour = ticket.getOutTime().getTime();
 
-        if ((outHour == 0) || (outHour < inHour) ){
+        if ((outHour == 0) || (outHour < inHour)){
             throw new IllegalArgumentException("Out time provided is incorrect : " + ticket.getOutTime().toString());
         }
 

@@ -41,7 +41,6 @@ public class ParkingSpotDAO {
      * @param parkingType
      * @return parking number
      */
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
     public int getNextAvailableSlot(ParkingType parkingType) {
         int result =- 1;
         ResultSet rs = null;
@@ -70,7 +69,6 @@ public class ParkingSpotDAO {
      * @param parkingSpot
      * @return success execution by boolean
      */
-    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("OBL_UNSATISFIED_OBLIGATION")
     public boolean updateParking(ParkingSpot parkingSpot) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -87,6 +85,7 @@ public class ParkingSpotDAO {
         } finally {
             dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
+            if (con != null) con = null;
         }
     }
 }

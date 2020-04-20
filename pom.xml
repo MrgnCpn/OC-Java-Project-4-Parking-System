@@ -15,7 +15,7 @@
         <sonar.projectKey>MrgnCpn_OC-Java-Project-4-Parking-System</sonar.projectKey>
         <sonar.organization>mrgncpn</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.login>d2ef1ddf174f0eaa31c301f8287eed61a1bc5f76</sonar.login>
+        <sonar.login>389fbaa5def4be872968d58d322cc2462fd025ee</sonar.login>
     </properties>
 
     <dependencies>
