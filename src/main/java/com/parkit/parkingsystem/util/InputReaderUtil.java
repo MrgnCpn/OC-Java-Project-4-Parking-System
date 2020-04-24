@@ -17,13 +17,19 @@ public class InputReaderUtil {
     private static final Logger logger = LogManager.getLogger("InputReaderUtil");
 
     /**
+     * Input scanner
+     */
+    private static Scanner scan = new Scanner(System.in);
+
+    /**
      * Read input in console for actions
      * @return action number or -1 if error
      */
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("DM_DEFAULT_ENCODING")
     public int readSelection() {
-        try (Scanner scan = new Scanner(System.in)) {
-             return Integer.parseInt(scan.nextLine());
+        try {
+            int input = Integer.parseInt(scan.nextLine());
+            return input;
         } catch(Exception e){
             logger.error("Error while reading user input from Shell", e);
             System.out.println("Error reading input. Please enter valid number for proceeding further");
@@ -37,9 +43,9 @@ public class InputReaderUtil {
      */
     @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("DM_DEFAULT_ENCODING")
     public String readVehicleRegistrationNumber() {
-        try (Scanner scan = new Scanner(System.in)) {
-            String vehicleRegNumber = scan.nextLine();
-            if (vehicleRegNumber == null || vehicleRegNumber.trim().length() == 0) {
+        try {
+            String vehicleRegNumber= scan.nextLine();
+            if(vehicleRegNumber == null || vehicleRegNumber.trim().length()==0) {
                 throw new IllegalArgumentException("Invalid input provided");
             }
             return vehicleRegNumber;
