@@ -10,6 +10,7 @@ import java.util.Scanner;
  * @author OpenClassrooms
  * @author MrgnCpn
  */
+@edu.umd.cs.findbugs.annotations.SuppressFBWarnings("DM_DEFAULT_ENCODING")
 public class InputReaderUtil {
     /**
      * Logger log4j2
